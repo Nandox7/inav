@@ -100,6 +100,9 @@ extern int16_t rcData[MAX_SUPPORTED_RC_CHANNEL_COUNT];       // interval [1000;2
 #define RSSI_SCALE_MAX 255
 #define RSSI_SCALE_DEFAULT 100
 
+#define RSSI_MIN 0
+#define RSSI_MAX 1023
+
 typedef struct rxChannelRangeConfig_s {
     uint16_t min;
     uint16_t max;
@@ -119,6 +122,8 @@ typedef struct rxConfig_s {
     uint8_t spektrum_sat_bind_autoreset;    // whenever we will reset (exit) binding mode after hard reboot
     uint8_t rssi_channel;
     uint8_t rssi_scale;
+    uint16_t rssi_min;                      // minimum value read for RSSI
+    uint16_t rssi_max;                      // maximum value read for RSSI
     uint8_t rssiInvert;
     uint16_t midrc;                         // Some radios have not a neutral point centered on 1500. can be changed here
     uint16_t mincheck;                      // minimum rc end

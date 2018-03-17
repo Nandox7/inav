@@ -118,6 +118,8 @@ PG_RESET_TEMPLATE(rxConfig_t, rxConfig,
     .rx_max_usec = 2115,         // any of first 4 channels above this value will trigger rx loss detection
     .rssi_channel = 0,
     .rssi_scale = RSSI_SCALE_DEFAULT,
+    .rssi_min = RSSI_MIN,
+    .rssi_max = RSSI_MAX,
     .rssiInvert = 0,
     .rcSmoothing = 1,
 );
@@ -502,16 +504,18 @@ void updateRSSI(timeUs_t currentTimeUs)
     }
 
     if (rssiUpdated) {
+
+        // Apply scaling
+        debug[0] = rssi;
+        debug[1] = rxConfig()->rssi_min;
+        //rssi = constrain((uint32_t)rssi * rxConfig()->rssi_scale / 100, 0, 1023);
+        rssi = scaleRange(rssi, rxConfig()->rssi_min, rxConfig()->rssi_max, 0, 1023);
+        debug[2] = rssi;
+
         // Apply RSSI inversion
         if (rxConfig()->rssiInvert) {
             rssi = 1023 - rssi;
         }
-
-        // Apply scaling
-        debug[0] = rssi;
-        debug[1] = rxConfig()->rssi_scale;
-        rssi = constrain((uint32_t)rssi * rxConfig()->rssi_scale / 100, 0, 1023);
-        debug[2] = rssi;
     }
 }
 

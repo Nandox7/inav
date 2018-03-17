@@ -318,6 +318,12 @@ groups:
       - name: rssi_scale
         min: RSSI_SCALE_MIN
         max: RSSI_SCALE_MAX
+      - name: rssi_min
+        min: 0
+        max: 1023
+      - name: rssi_max
+        min: 0
+        max: 1023
       - name: rssi_invert
         field: rssiInvert
         type: bool
